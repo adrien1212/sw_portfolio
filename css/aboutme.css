@@ -1,0 +1,255 @@
+html,
+body {
+    height: 100%;
+    color: white;
+    background-color: #0A0B0D;
+}
+
+.maincontent {
+    max-width: 65% !important;
+    font-size: 18px !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title-container {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.title {
+    color: white !important;
+    font-family: 'Imbue', serif;
+    font-size: 48px !important;
+}
+
+.separator {
+    border-bottom: 1px solid #4F5147;
+    border-top: 1px solid #4F5147;
+    background-color: #161619;
+    height: 0.4em;
+}
+
+.important {
+    font-weight: 700;
+}
+
+.introduction {
+    margin-top: 5em;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700 !important;
+    color: #333333 !important;
+    font-size: 28px !important;
+    color: white !important;
+    margin-bottom: 0.0em !important;
+}
+
+.introduction {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in both;
+    animation-delay: 0.1s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -5%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+.studies {
+    opacity: 0;
+    animation: fadeIn2 1.25s ease-in both;
+    animation-delay: 1s;
+}
+
+.studies .columns {
+    margin-left: 2%;
+}
+
+@keyframes fadeIn2 {
+    from {
+        opacity: 0;
+        transform: translate3d(-2%, 0%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.skills {
+    opacity: 0;
+    animation: fadeIn3 1.25s ease-in both;
+    animation-delay: 1.8s;
+}
+
+.skills .columns {
+    margin-left: 2%;
+}
+
+@keyframes fadeIn3 {
+    from {
+        opacity: 0;
+        transform: translate3d(-2%, 0%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.bordure2 {
+    margin-top: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #f8c617;
+    border-bottom-width: 2px;
+    width: 8em;
+    margin-bottom: 1em;
+}
+
+.container ul {
+    list-style-type: disc;
+}
+
+
+
+
+.network {
+    opacity: 0;
+    animation: fadeIn4 1.25s ease-in both;
+    animation-delay: 2.4s;
+}
+
+@keyframes fadeIn4 {
+    from {
+        opacity: 0;
+        transform: translate3d(0%, -2%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Redirection CV + Linkedin + GitHub*/
+
+.icon-flag {
+    padding-top: 20%;
+    max-height: 50%;
+    margin-top: -20%;
+}
+
+.social ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 500px) {
+    .social ul {}
+}
+
+@media (max-width: 500px) {
+    .social {
+        width: 100%;
+    }
+}
+
+.social {
+    list-style: none;
+}
+
+.social a {
+    display: block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 40px;
+    text-align: center;
+    text-decoration: none;
+    color: #404040;
+    margin: 0 30px;
+    transition: 0.5s;
+}
+
+.social a span {
+    position: absolute;
+    transition: transform 0.5s;
+}
+
+.social a span:nth-child(1),
+.social a span:nth-child(3) {
+    width: 100%;
+    height: 3px;
+    background: white;
+}
+
+.social a span:nth-child(1) {
+    top: 0;
+    left: 0;
+    transform-origin: right;
+}
+
+.social a:hover span:nth-child(1) {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.social a span:nth-child(3) {
+    bottom: 0;
+    left: 0;
+    transform-origin: left;
+}
+
+.social a:hover span:nth-child(3) {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s;
+}
+
+.social a span:nth-child(2),
+.social a span:nth-child(4) {
+    width: 3px;
+    height: 100%;
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+}
+
+.social a span:nth-child(2) {
+    top: 0;
+    left: 0;
+    transform: scale(0);
+    transform-origin: bottom;
+}
+
+.social a:hover span:nth-child(2) {
+    transform: scale(1);
+    transform-origin: top;
+    transition: transform 0.5s;
+}
+
+.social a span:nth-child(4) {
+    top: 0;
+    right: 0;
+    transform: scale(0);
+    transform-origin: top;
+}
+
+.social a:hover span:nth-child(4) {
+    transform: scale(1);
+    transform-origin: bottom;
+    transition: transform 0.5s;
+}

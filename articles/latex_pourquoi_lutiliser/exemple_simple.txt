@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[simplified]{pgf-umlcd}
+
+
+
+\begin{document}
+
+\tableofcontents
+
+
+
+\section{Mon titre}
+\subsection{Mon sous-titre}
+\subsubsection{Mon sous-sous-titre}
+
+
+
+\section{Formule mathématique}
+$a^2 + b^2 = c^2$
+
+\section{Inclure du code}
+\begin{lstlisting}[language=java]
+public class Client {
+   public static void main(String args[]) {
+      // ...
+   }
+}
+\end{lstlisting}
+
+
+
+\section{Inclure un diagramme}
+\begin{tikzpicture}
+    \begin{class}[text  width=4cm]{Interrupteur}{-7,0}
+        \attribute {- lampe : Lampe }
+        \operation {+  on() : void }
+        \operation {+  off() : void}
+    \end{class}	
+    
+    \begin{class}[text  width=4cm]{Lampe}{0,0}
+        \attribute {}
+        \operation {+  allumer() : void }
+        \operation {+  eteindre() : void}
+    \end{class}	
+
+    \unidirectionalAssociation{Interrupteur}{}{1}{Lampe}
+\end{tikzpicture}
+
+
+\end{document}

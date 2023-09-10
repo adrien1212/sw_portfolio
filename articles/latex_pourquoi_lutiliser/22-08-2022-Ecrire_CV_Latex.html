@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="author" content="Adrien CAUBEL">
+<title>Pourquoi apprendre et utiliser LaTeX ?</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Pourquoi apprendre et utiliser LaTeX ?</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">02/11/2022</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_pourquoi_ne_pas_utiliser_latex">Pourquoi ne pas utiliser LaTeX</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Il y a deux principales raisons pour lesquelles LaTeX n’est peut-être
+pas adapté.</p>
+</div>
+<div class="sect2">
+<h3 id="_vous_maitrisez_word_sur_le_bout_des_doigts">Vous maitrisez Word sur le bout des doigts</h3>
+<div class="paragraph">
+<p>Si vous maitrisez suffisamment Word pour pouvoir faire l’ensemble de
+votre travail, alors LaTeX vous sera inutile. Vous ne serez même pas en
+train de vous poser la question de changer d’éditeur de texte tellement
+le v^otre vous convient.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vous_partagez_des_documents">Vous partagez des documents</h3>
+<div class="paragraph">
+<p>Dans le cas d’un contexte d’entreprise on est amené à partager des
+documents qui vont être modifiés par des tiers. La compilation d’un
+document LaTeX produit un PDF, le seul moyen de modifier un fichier
+LaTeX est de fournir les sources de votre document (fichier <code>.tex</code>).
+Vous êtes malheureusement obligé de vous conformer à la politique de
+l’entreprise, et je ne pense pas que vous arriverez à les convaincre de
+passer de Word à LaTeX même en leur annonçant le montant des économies
+réalisées via cette solution libre.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pourquoi_je_lutilise">Pourquoi je l’utilise</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En tant qu’informaticien voici les deux fonctionnalités qui me manquait
+sous Word et qui m’ont fait pousser à utiliser LaTeX.</p>
+</div>
+<div class="sect2">
+<h3 id="_inclure_du_code_qui_rend_bien">Inclure du code qui rend bien</h3>
+<div class="paragraph">
+<p>Il existe des solutions sous Word, mais quelque soit celle envisagée
+elle sera toujours plus compliquée que :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inclure le package</p>
+</li>
+<li>
+<p>Ouvrir un environnement <code>lstlisting</code></p>
+</li>
+<li>
+<p>Coller votre code</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Vous n’avez besoin de rien de plus. Si vous voulez modifier votre code,
+car vous avez une erreur, alors juste à modifier le texte.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\usepackage{listings}
+
+\begin{lstlisting}[language=java]
+public class Client {
+   public static void main(String args[]) {
+      // ...
+   }
+}
+\end{lstlisting}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Produira l’affichage suivant dans le document, en mettant les mots-clés
+en gras. Vous pouvez bien sûr customiser le style et ajouter des
+couleurs comme dans ces
+<a href="https://texblog.org/2011/06/11/latex-syntax-highlighting-examples/">exemples</a>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/code.png" alt="images/code"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inclure_des_diagrammes_sans_image">Inclure des diagrammes (sans image)</h3>
+<div class="paragraph">
+<p>La solution classique est de créer son diagramme sur draw.io puis de
+l’exporter sous forme d’image (png ou jpeg).</p>
+</div>
+<div class="paragraph">
+<p>Mais il y a souvent des erreurs mineures qui vous obligent à redéployer
+votre image :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>oubli d’un caractère</p>
+</li>
+<li>
+<p>oublie de l’accessibilité d’un attribut ou d’une méthode (signe <code>-</code>
+pour <code>private</code>)</p>
+</li>
+<li>
+<p>etc …</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Des développeurs ont créé un package permettant d’écrire directement (en
+toutes lettres) des diagrammes. Mon préféré est <code>pgf-umlcd</code> qui permet
+de créer des diagrammes de classes. Je vous l’avoue c’est un peu plus
+dur que le code, mais ça en vaut la peine. Ainsi, si vous souhaitez
+renommer votre classe, vous n’aurez qu’à modifier directement dans
+l’éditeur TeX.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\usepackage[simplified]{pgf-umlcd}
+
+\begin{tikzpicture}
+    \begin{class}[text  width=4cm]{Interrupteur}{-7,0}
+        \attribute {- lampe : Lampe }
+        \operation {+  on() : void }
+        \operation {+  off() : void}
+    \end{class}
+
+    \begin{class}[text  width=4cm]{Lampe}{0,0}
+        \attribute {}
+        \operation {+  allumer() : void }
+        \operation {+  eteindre() : void}
+    \end{class}
+
+    \unidirectionalAssociation{Interrupteur}{}{1}{Lampe}
+\end{tikzpicture}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Produira l’affichage suivant dans le document. Vous trouverez d’autres
+exemples surs lahttps://ctan.org/pkg/pgf-umlcd[documentation officielle
+du package]</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/class.png" alt="images/class"></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pourquoi_utiliser_latex">Pourquoi utiliser LaTeX</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La section précédente se concentrait sur mes motivations
+d’informaticiens, mais voici d’autres arguments plus généraux.</p>
+</div>
+<div class="sect2">
+<h3 id="_se_concentrer_sur_lessentiel">Se concentrer sur l’essentiel</h3>
+<div class="paragraph">
+<p>De nombreux articles reviennent sur ce point et à raison. LaTeX permet à
+l’utilisateur de <strong>se concentrer sur le contenu</strong> du document sans se
+soucier de la mise en forme qui sera effectuée automatiquement.<br>
+Vous pouvez modifier le thème, la police, la taille, la couleur, mais
+ceci est subjectif. L’utilisateur LaTeX met en avant le fond, il
+traitera la forme avant la publication (s’il a le temps).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ecrire_plus_vite">Ecrire plus vite</h3>
+<div class="paragraph">
+<p>Plus besoin d’utiliser la souris, tout ce fait en écrivant une sorte de
+code.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pour ajouter un titre <code>\section{Mon titre}</code></p>
+</li>
+<li>
+<p>Pour ajouter un sous-titre <code>\subsection{Mon sous-titre}</code></p>
+</li>
+<li>
+<p>Pour ajouter une table des matières <code>\tableofcontents</code></p>
+</li>
+<li>
+<p>Pour mettre en gras <code>\textbf{texte en gras}</code></p>
+</li>
+<li>
+<p>Pour écrire une formule mathématique <code>$a^2 + b^2 = c^2$</code></p>
+</li>
+<li>
+<p>Et plein d’autres fonctionnalités rapides à écrire</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cest_beau_et_professionnel">C’est beau et professionnel</h3>
+<div class="paragraph">
+<p>C’est un point subjectif, mais je trouve les document LaTeX (<code>.pdf</code>)
+très agréables à lire par leur police, le positionnement des éléments.
+Pour moi, ils traduisent un certain professionnalisme se rapprochant, de
+documents scientifiques.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/example.png" alt="images/example"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_open_source">Open Source</h3>
+<div class="paragraph">
+<p>Vous n’avez pas besoin de payer pour utiliser LaTeX ni pour
+l’utilisation des éditeurs de texte.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_je_veux_utiliser_latex">Je veux utiliser LaTeX</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Vous n’avez aucune contrindication à l’utilisation de LaTeX</p>
+</li>
+<li>
+<p>Vous souhaitez vous concentrer sur le fond</p>
+</li>
+<li>
+<p>D’autres arguments vous ont convaincu.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Alors, oui apprenez LaTeX, regardez sur le Net ce qu’il est possible de
+faire avec puis lancez-vous. A titre personnel, j’ai regardé quelques
+vidéos YouTube en français puis au bout d’une heure j’ai rédigé mon
+premier document (très simple). Au fur et à mesure de vos besoins, vous
+trouverez les packages et l’aide n&#8217;ecessaire sur internet.</p>
+</div>
+<div class="sect2">
+<h3 id="_exemple_complet">Exemple complet</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="exemple_simple.txt">Code Source</a></p>
+</li>
+<li>
+<p><a href="exemple_simple.pdf">Rendu PDF</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_liens_utiles">Liens utiles</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="www.overleaf.com">Overleaf</a> pour commencer à écrire sans se
+préoccuper de l’installation du compilateur sur votre ordinateur.</p>
+</li>
+<li>
+<p><a href="https://www.univ-montp3.fr/miap/ens/info/Expert/ExpertDoc/TD1/exo8.html">MikTex
++ Tekmaker</a> tutoriel pour installer un compilateur et un éditeur Latex.</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=tcP9wpy33fw&amp;list=PLF5D1F10DAA072E4E">Videos</a>
+Une playlist en français pour apprendre Latex.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

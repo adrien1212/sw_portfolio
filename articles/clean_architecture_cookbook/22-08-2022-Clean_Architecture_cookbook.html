@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="author" content="Adrien CAUBEL">
+<title>Clean Architecture Cookbook</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Clean Architecture Cookbook</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">22/08/2022</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_references">References</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This article isn’t a course about the Clean Architecture. It is intended
+for people who have already understood the concept of Clean Architecture
+and want to implement it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The book <em>Clean Architecture: A Craftsman’s Guide to Software
+Structure and Design</em>.</p>
+</li>
+<li>
+<p>The book <em>Get Your Hands Dirty on Clean Architecture</em> teach you how to
+build the Clean Architecture.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_diagram">Diagram</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the following section we learn how to implement this diagram in Java.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/clean-architecture-design.png" alt="images/clean-architecture-design"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_core">The Core</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The first step is to build the core of the application.
+<span class="image"><img src="images/core.png" alt="images/core"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_entity">Entity</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Car {
+   private String model;
+   private String brand;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Client {
+   private String firstName;
+   private String lastName;
+   private Lisr&lt;Car&gt; cars;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_carrequestmodel">CarRequestModel</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_service_interface_boundary">Service interface (Boundary)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public interface BuyCarUseCase {
+    boolean buyCar(CarRequestModel car)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_service_implementation_interactor">Service implementation (Interactor)</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_web">The Web</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_database">The database</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:54 +0200
+</div>
+</div>
+</body>
+</html>

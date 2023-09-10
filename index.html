@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adrien CAUBEL</title>
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Apprentice student-engineer in Computer Science | ENSEEIHT (France) ">
+    <meta name="author" content="Adrien CAUBEL">
+    <meta name="keywords" content="Ingénieur, Informatique, Adrien, CAUBEL, Computer Science, ENSEEIHT, N7">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" sizes="64x64" href="img/fr-64px.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="css/navbar-black.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="navbarcontainer">
+        <div class="container">
+            <nav class="navbar" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="#">
+                        Home
+                    </a>
+
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarMenu">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+
+
+                </div>
+
+                <div id="navbarMenu" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a class="navbar-item" href="courses.html">
+                            Courses
+                        </a>
+                        <a class="navbar-item" href="articles/articles.html">
+                            Articles
+                        </a>
+                        <a class="navbar-item" href="aboutme.html">
+                            About me
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="mainpart">
+        <div class="mainpart-background">
+
+        </div>
+        <div class="container max-height-container">
+            <div class="columns is-flex is-vcentered">
+                <div class="column is-8-desktop is-full-mobile">
+                    <h1 class="title">
+                        Adrien CAUBEL
+                    </h1>
+                    <p id="typing-effect" class="subtitle">
+                    </p>
+                </div>
+            </div>
+            
+            <div class="columns" style="margin-top: 9em;">
+                <div class="column is-4 is-flex is-justify-content-center">
+                    <a href="courses.html" class="button-64 hidden" role="button"><span class="text">Courses</span></a>
+                </div>
+                <div class="column is-4 is-flex is-justify-content-center">
+                    <a href="articles/articles.html" class="button-64 hidden" role="button"><span
+                            class="text">Articles</span></a>
+                </div>
+                <div class="column is-4 is-flex is-justify-content-center">
+                    <a href="aboutme.html" class="button-64 hidden" role="button"><span class="text">About
+                            Me</span></a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        const typingElement = document.getElementById("typing-effect");
+
+        const textToType = "Computer Science Student";
+
+        const typingSpeed = 65; // Adjust this value 
+
+        // Function to simulate typing effect
+        function typeText(text, index) {
+            if (index < text.length) {
+                typingElement.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(function () {
+                    typeText(text, index);
+                }, typingSpeed);
+            }
+        }
+
+        // Start the typing effect
+        typeText(textToType, 0);
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if (navbarBurgers.length > 0) {
+                navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const menu = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        menu.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

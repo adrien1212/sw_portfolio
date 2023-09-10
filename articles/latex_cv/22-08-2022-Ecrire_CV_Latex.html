@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="author" content="Adrien CAUBEL">
+<title>Ecrire son CV en LaTeX</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Ecrire son CV en LaTeX</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">22/08/2022</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_prérequis">Prérequis</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Posséder une distribution LaTeX (e.g :
+<a href="https://www.tug.org/texlive/">texlive</a>, <a href="https://miktex.org/">miktex</a>)</p>
+</li>
+<li>
+<p>Connaitre les bases de LaTeX</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_définir_les_marges">Définir les marges</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les marges par défaut sont trop étroites pour un CV. Le package
+<code>geometry</code> permet de définir de nouvelles valeurs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\usepackage{geometry}
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    right=10mm,
+    top=10mm,
+    bottom=0.5mm
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_définir_des_styles">Définir des styles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Votre CV est amené à évoluer textuellement et graphiquement. Concernant
+l’évolution graphique afin qu’elle soit plus simple je vous recommande
+de définir des styles pour chaque élement. Par exemple, pour les titres
+de partie nous allons redéfinir la commande <code>\section</code> et pour les
+&#8220;sous-titre&#8221; redéfinir la commande <code>\subsection</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/titre_sous_titre.png" alt="titre">
+</div>
+<div class="title">Figure 1. titre</div>
+</div>
+<div class="sect2">
+<h3 id="_un_style_pour_les_titres">Un style pour les titres</h3>
+<div class="paragraph">
+<p>Afin de définir nos couleurs nous avons besoin du package <code>xcolor</code>
+(<code>\usepackage{xcolor}</code>)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\definecolor{titlecolor}{HTML}{515151}
+\definecolor{textcolor}{HTML}{3d3d3d}
+
+\titleformat % design des titres des sections
+{\section}
+[block]
+{\headingfont\Large\bfseries\color{titlecolor}}
+{\thesection~)}
+{\baselineskip}
+{\MakeUppercase}
+[\color{linecolore}\hrule\vspace{0\baselineskip}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_un_style_pour_les_sous_titres">Un style pour les sous-titres</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\definecolor{subsectioncolor}{HTML}{565656}
+
+\titleformat % design des titres des sections
+{\subsection}
+[block]
+{\normalfont\sffamily\small\bfseries\color{subsectioncolor}}
+{\thesection~)}
+{\baselineskip}
+{\MakeUppercase}
+[\vspace{-0.6\baselineskip}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utiliser_nos_styles">Utiliser nos styles</h3>
+<div class="paragraph">
+<p>Une fois les styles définis il nous reste plus qu’à les utiliser</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\section*{Diplômes et Formations}
+\subsection*{École d'ingénieur en Sciences du Numérique}
+   {\small2020 - 2023 - Alternance à l'ENSEEIHT, Toulouse (31) \\
+      \hspace*{2.8em} 2023 - Echange universitaire à l'UQAC, Chicoutimi (Canada)} \\
+
+\subsection*{DUT Informatique}
+   {\small 2018 - 2020 - IUT de Rodez, Rodez (12) \\}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ajouter_des_icones">Ajouter des ic^ones</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Au lieu d’écrire <em>adresse</em>, <em>téléphone</em> ou <em>email</em> vous pouvez utiliser
+des ic^ones représentant ces différentes notions.</p>
+</div>
+<div class="sect2">
+<h3 id="_font_awesome">Font Awesome</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Le package LaTeX <code>fontawesome5</code> fournit l’ensemble des ic^ones
+disponibles par cette librairie.</p>
+</li>
+<li>
+<p>Nous vous recommandons de chercher le type d’ic^one que vous voulez
+sur le site de <a href="https://fontawesome.com/v5/search">fontawesome</a>. Puis une
+fois que vous avez le nom de l’ic^one vous référer à la documention
+<a href="http://mirrors.ibiblio.org/CTAN/fonts/fontawesome5/doc/fontawesome5.pdf">documentation
+du package</a> pour pouvoir l’ajouter dans votre document.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ajouter_les_icones_au_texte">Ajouter les ic^ones au texte</h3>
+<div class="paragraph">
+<p>Très simple, devant votre texte rajouter le nom de l’ic^one trouvé sur
+la
+<a href="http://mirrors.ibiblio.org/CTAN/fonts/fontawesome5/doc/fontawesome5.pdf">documentation
+du package</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\faMapMarker* \hspace{0.2mm} Route de Marcillac, Nuces 12330 VALADY \\
+
+\faPhone* \hspace{0.2mm}  06 06 06 06 06 \\
+\faEnvelope \hspace{1mm} jean@gmail.com  \\</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/icone.png" alt="icone">
+</div>
+<div class="title">Figure 2. icone</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mettre_en_forme_ses_expériences_professionnelles">Mettre en forme ses expériences professionnelles</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/experiences.png" alt="experiences">
+</div>
+<div class="title">Figure 3. experiences</div>
+</div>
+<div class="paragraph">
+<p>Les expériences personnelles sont composées :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>d’un sous-titre</p>
+</li>
+<li>
+<p>de la date, l’entreprise et le lieu</p>
+</li>
+<li>
+<p>des tâches réalisées durant le stage ou le job</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\subsection*{Stagiaire - Conception d’un CRM}
+\small{2020 - 2020 - SPI SOFTWARE, Luc-la-Primaube (12)}
+\normalsize
+\begin{adjustwidth}{20pt}{0pt}
+   \begin{itemize}
+      \vspace*{0.2em}
+      \setlength\itemsep{-0.2em}
+      \item Apprentissage du langage JavaScript et framework Vue.JS
+      \item Modernisation du visuel du site et amélioration/modification du code existant
+   \end{itemize}
+\end{adjustwidth}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>adjustwidth</code> permet d’appliquer un retrait, ici <code>20pt</code> à gauche.
+Ainsi, notre liste des tâches est décalée par rapport au titre.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_utiliser_des_templates_prédéfinis">Utiliser des templates prédéfinis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Vous n’avez rien à compris, ou vous ne voulez pas vous embeter à créer
+votre propre design. La solution est de vous rendre sur <em>overleaf</em> dans
+la section <a href="https://fr.overleaf.com/gallery/tagged/cv">cv/resume</a> pour
+trouver le template qui vous correspond puis le modifier.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Java; Test; Jacoco; JUnit">
+<meta name="author" content="Adrien CAUBEL">
+<title>Couverture de code - JaCoCo</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Couverture de code - JaCoCo</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">21/04/2022</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le code coverage décrit le pourcentage de code couvert par une suite de
+tests automatiques.</p>
+</div>
+<div class="paragraph">
+<p>JaCoCo est un framework open-source pour mesurer et rapporter la
+couverture du code Java. Il est fournit par défaut avec Eclipse nous
+pouvons donc directement l’utiliser sans configuration supplémentaire.</p>
+</div>
+<div class="paragraph">
+<p>Après l’exécution de l’analyse, les informations de couverture de code
+sont automatiquement disponibles dans l’atelier Eclipse sous deux formes
+:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Source highlighting</strong> : le code couvert sera surligné dans l’éditeur
+de code</p>
+</li>
+<li>
+<p><strong>Coverage overview</strong> : la vue <em>Coverage</em> répertorie les résumés de
+couverture pour l’ensemble des projets</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prise_en_main_de_jacoco">Prise en main de JaCoCo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La première étape avant de lancer JaCoCo est d’écrire un test JUnit ou
+TestNG. Dans cet article nous utiliserons JUnit5.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Main {
+    public void a(boolean b) {
+        if(b) {
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class MainTest {
+
+    private Main m = new Main();
+
+    @Test
+    public void atest() {
+        m.a(false);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validation_junit">Validation JUnit</h3>
+<div class="paragraph">
+<p>L’éxécution de ce test permet de s’assurer les automatiques sont
+correctment mis en place.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lancer_et_analyser_la_couverture_de_code">Lancer et analyser la couverture de code</h3>
+<div class="sect3">
+<h4 id="_lancer_lanalyseur_de_couverture_de_code">Lancer l’analyseur de couverture de code</h4>
+<div class="paragraph">
+<p>Deux possibilités pour lancer la couverture :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Clic Droit -&gt; Coverage As -&gt; JUnit Test</code></p>
+</li>
+<li>
+<p><span class="image"><img src="images/launch.png" alt="images/launch"></span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_source_highlighting">Source highlighting</h4>
+<div class="paragraph">
+<p><span class="image"><img src="images/surligne.png" alt="images/surligne"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>vert</em> : le code où nous sommes passés avec notre suite de tests</p>
+</li>
+<li>
+<p><em>rouge</em> : le code où nous ne sommes pas passés avec notre suite de
+tests</p>
+</li>
+<li>
+<p><em>jaune</em> : nous informe que seulement une partie des branches ont été
+explorées.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_coverage_view">Coverage view</h4>
+<div class="paragraph">
+<p>Enfin, la vue <code>Coverage</code> nous permet d’avoir des statistiques sur la
+couverture de notre projet <span class="image"><img src="images/tableau.png" alt="images/tableau"></span></p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.eclemma.org/userdoc/coverageview.html">Documentation Coverage
+View</a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_augmenter_notre_couverture">Augmenter notre couverture</h3>
+<div class="paragraph">
+<p>Pour augmenter la couverture de notre code nous devons réaliser un
+nouveau test qui passera dans la seconde branche.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class MainTest {
+
+    private Main m = new Main();
+
+    @Test
+    public void atest() {
+        m.a(true);
+    }
+
+    @Test
+    public void atest2() {
+        m.a(false);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Si nous relancons JaCoCo nous observons que notre classe <code>Main</code> est
+surlignée entièrement en vert et que dans la vue <code>Coverage</code> nous
+obtenons 100% de couverture.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_maven">Configuration Maven</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dans cette seconde section nous allons voir comment obtenir les rapports
+JUnit et JaCoCo grâce à Maven.</p>
+</div>
+<div class="sect2">
+<h3 id="_inclure_les_dépendances">Inclure les dépendances</h3>
+<div class="paragraph">
+<p>Nous supposons que vous avez déjà créé un projet Maven et que votre
+<code>pom.xml</code> est correctement configuré pour accepter de nouvelles
+dépendances</p>
+</div>
+<div class="sect3">
+<h4 id="_dépendances_junit5">Dépendances JUnit5</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependencies&gt;
+    ...
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;
+        &lt;artifactId&gt;junit-jupiter-engine&lt;/artifactId&gt;
+        &lt;version&gt;5.4.0&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.junit.platform&lt;/groupId&gt;
+        &lt;artifactId&gt;junit-platform-engine&lt;/artifactId&gt;
+        &lt;version&gt;1.8.2&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;
+        &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;
+        &lt;version&gt;5.4.0&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;
+        &lt;artifactId&gt;junit-jupiter-api&lt;/artifactId&gt;
+        &lt;version&gt;5.4.0&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    ...
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_plugin_surefire">Plugin surefire</h4>
+<div class="paragraph">
+<p><a href="https://maven.apache.org/surefire/maven-surefire-plugin/usage.html">Documentation</a></p>
+</div>
+<div class="paragraph">
+<p>Nous pouvons exécuter les tests d’un projet en utilisant le plugin
+<em>surefire</em>. Par défaut, ce plugin génère des rapports XML dans le
+répertoire <code>target/surefire-reports</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;plugins&gt;
+   ...
+    &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.22.0&lt;/version&gt;
+    &lt;/plugin&gt;
+    ...
+&lt;/pluguins&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_plugin_jacoco">Plugin JaCoCo</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+    &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;0.8.8&lt;/version&gt;
+    &lt;executions&gt;
+    &lt;execution&gt;
+        &lt;id&gt;prepare-agent&lt;/id&gt;
+            &lt;goals&gt;
+             &lt;goal&gt;prepare-agent&lt;/goal&gt;
+            &lt;/goals&gt;
+      &lt;/execution&gt;
+      &lt;execution&gt;
+            &lt;id&gt;report&lt;/id&gt;
+            &lt;phase&gt;test&lt;/phase&gt;
+               &lt;goals&gt;
+               &lt;goal&gt;report&lt;/goal&gt;
+               &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Prepare-agent goal</strong> : le <em>prepare-agent goal</em> prépare l’agent
+d’exécution JaCoCo à enregistrer les données d’exécution. Il enregistre
+le nombre de lignes exécutées, de retours en arrière, etc. Par défaut,
+les données d’exécution sont écrites dans le fichier
+<code>target/jacoco.exec</code>.</p>
+</li>
+<li>
+<p><strong>Report goal</strong> : Le <em>report goal creates</em> crée des rapports de
+couverture de code à partir des données d’exécution enregistrées par le
+<em>runtime agent</em> JaCoCo. Puisque nous avons spécifié la propriété phase,
+les rapports seront créés après la compilation de la phase de test. Par
+défaut, les données d’exécution sont lues dans le fichier
+<code>target/jacoco.exec</code>, et le rapport de couverture de code est écrit
+dans le répertoire <code>target/site/jacoco/index.html</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lancement_du_projet">Lancement du projet</h4>
+<div class="paragraph">
+<p><code>mvn clean verify</code></p>
+</div>
+<div class="paragraph">
+<p>Le goal <code>jacoco:check</code> est lié à la phase <code>verify</code> de Maven. La
+commande <code>mvn clean verify</code> permettra donc de vérifier si les règles
+sont respectées ou non.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_résultats">Résultats</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Résultats JUnit5 : <code>target/surefire-report/**Test.xml</code></p>
+</li>
+<li>
+<p>Résultats JaCoCo : <code>target/site/jacoco/index.html</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_sonarqube">Configuration SonarQube</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SonarQube permet également d’exploiter les résultats JaCoCo. Dans cette
+troisième section nous allons voir comment configurer SonarQube avec
+JaCoCo.</p>
+</div>
+<div class="sect2">
+<h3 id="_inclure_les_dépendances_2">Inclure les dépendances</h3>
+<div class="paragraph">
+<p>Le seul pré-requis est d’avoir un serveur SonarQube - par exemple avec
+Docker.</p>
+</div>
+<div class="sect3">
+<h4 id="_plugin_sonarqube">Plugin SonarQube</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.sonarsource.scanner.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;sonar-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;3.4.0.905&lt;/version&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_sonarqube_2">Configuration SonarQube</h4>
+<div class="paragraph">
+<p>Pour configurer SonarQube nous utiliserons un fichier
+<code>sonar-project.properties</code> que nous placerons à la racine de notre
+projet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">sonar.projectKey=12e548cf608d4e8d2ab5097e07ba16f6c5f42adf
+
+sonar.projectName=My project
+sonar.projectVersion=1.0
+
+sonar.sources=src/main
+sonar.tests=src/test
+
+sonar.sourceEncoding=UTF-8</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Par défaut, Maven ne prend pas en compte ce fichier, il faut donc le lui
+spécifier dans le <code>pom.xml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+    &lt;artifactId&gt;properties-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;phase&gt;initialize&lt;/phase&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;read-project-properties&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;files&gt;
+                    &lt;file&gt;${basedir}/sonar-project.properties&lt;/file&gt;
+                &lt;/files&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remarque : Il faut enlever l’option de sécurité dans
+<code>Sonar (website) -&gt; Administration -&gt; Security -&gt; Force User Authentification</code>.
+Dans le cas contraire, vous devez rajouter <code>sonar.login=</code> et
+<code>sonar.password=</code> dans le fichier de configuration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lancement_du_projet_2">Lancement du projet</h4>
+<div class="paragraph">
+<p><code>mvn clean verify sonar:sonar</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_résultats_2">Résultats</h4>
+<div class="paragraph">
+<p>Sur votre instance de SonarQube vous verrez directement le résultat de
+la couverture de code.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/sonar.png" alt="images/sonar"></span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_gitlab_ci">Configuration GitLab CI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nous terminons nos exemples de configuration avec la visualisation des
+tests et de leur couverture dans une CI GitLab.</p>
+</div>
+<div class="sect2">
+<h3 id="_configuration_de_la_ci">Configuration de la CI</h3>
+<div class="paragraph">
+<p>Ci-dessous nous présentons le fichier <code>.gitlab-ci.yml</code> que nous
+utiliserons.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">image: maven:latest
+
+stages:
+  - build
+  - test
+  - visualize
+
+
+javatest:
+  stage: test
+  script:
+    - 'mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report'
+  artifacts:
+    paths:
+      - target/site/jacoco/jacoco.xml
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+
+javacoverage:
+  stage: visualize
+  image: haynes/jacoco2cobertura:1.0.7
+  script:
+    - 'python cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ &gt; target/site/coverage.xml'
+  needs: ["javatest"]
+  dependencies:
+    - javatest
+  artifacts:
+    reports:
+      cobertura: target/site/coverage.xml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Comme on peut le voir, il nécessite le script
+<a href="resources/cover2cover.py">cover2cover.py</a> que nous placerons à la
+racine du projet. En effet les rapports de couverture de code doivent
+respecter le format Cobertura comme précisé dans la
+<a href="https://docs.gitlab.com/ee/user/project/merge_requests/test_coverage_visualization.html">documentation</a>.
+Le script Python va donc permettre de convertir un rapport JaCoCo en
+rapport Corberture</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_résultat">Résultat</h3>
+<div class="paragraph">
+<p>Dans la merge request à chaque nouveau commit nous pourrons voir si les
+changements effectués sont couverts par les tests automatiques.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

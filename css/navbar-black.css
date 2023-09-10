@@ -1,0 +1,34 @@
+.navbarcontainer {
+  background-color: #0E1213;
+}
+
+.navbar {
+  position: relative;
+  background-color: #0E1213;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.navbar a {
+  color: white;
+  font-weight: 700;
+}
+
+.navbar a:hover {
+  background-color: #0E1213;
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: #4F5147;
+}
+
+.separator {
+  border-bottom: 1px solid #4F5147;
+  border-top: 1px solid #4F5147;
+  background-color: #161619;
+  height: 0.4em;
+}
+
+
+.navbar-menu {
+  background-color: #0E1213;
+}

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Design Pattern State, state, vendor machine, Java Design Pattern">
+<meta name="author" content="Adrien CAUBEL">
+<title>Concevoir un distributeur automatique (state design pattern)</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+<link rel="stylesheet" href="./rouge-github.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Concevoir un distributeur automatique (state design pattern)</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">21/04/2022</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>La conception d’un distributeur automatique de boisson fait partie des
+questions courantes lors d’entretien d’embauche.</p>
+</div>
+<div class="paragraph">
+<p>Dans cet article nous allons voir comment le patron de conception Etat
+(State) nous permet de résoudre ce problème.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prérequis</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>UML</p>
+</li>
+<li>
+<p>Design pattern state (est un +) <a href="https://youtu.be/7N8fE4sV8js" class="bare">https://youtu.be/7N8fE4sV8js</a></p>
+</li>
+<li>
+<p>10min pour lire l’article 😉</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_machine_à_état_fini">Machine à état fini</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Un distributeur automatique peut être vu comme une machine à état fini.
+Pour simplifier le problème nous allons représenter seulement les
+quatres états suivants :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Prêt</em></p>
+</li>
+<li>
+<p><em>Annuler</em>, lorsque la transaction est annulée</p>
+</li>
+<li>
+<p><em>RendreMonnaie</em>, lorsque la monnaie est rendue au client</p>
+</li>
+<li>
+<p><em>DistribuerBoisson</em>, lorsque la boisson est distribuée</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://cdn-images-1.medium.com/max/2532/1*2ZXuMMZA2ozx922KK9lzdw.png" alt="Machine a état finie d’un distributeur automatique"></span><em>Machine a état finie d’un
+distributeur automatique</em></p>
+</div>
+<div class="paragraph">
+<p>Puis nous passons d’un état à un autre grâce aux transitions
+représantant l’action à effectuer :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pour passer de <em>Pret</em> à <em>RendreMonnai</em> il faut que l’utilisateur ait
+validé son choix</p>
+</li>
+<li>
+<p>Pour passer de <em>DistribuerBoisson</em> à <em>Prêt</em> il faut que la machine ait
+distribué la boisson demandée.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>En bleu, nous avons représenté les transitions automatiques; i.g. que le
+distributeur gère seul le passage à l’état suivant.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_diagramme_de_classe"><strong>Diagramme de classe</strong></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La machine à état fini permet de visualiser le problème, néanmoins un
+diagramme de classe est nécessaire afin de traduire notre problème en
+Orientée Objets</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://cdn-images-1.medium.com/max/5142/1*ChHsGLzp-4XNUmnI_U8wxA.png" alt="https://cdn-images-1.medium.com/max/5142/1*ChHsGLzp-4XNUmnI_U8wxA"></span></p>
+</div>
+<div class="paragraph">
+<p><strong>IVendorMachine</strong></p>
+</div>
+<div class="paragraph">
+<p>Représente l’API de notre service. Le client effectue des requêtes (&#8658;
+prefix <em>request</em>)</p>
+</div>
+<div class="paragraph">
+<p><strong>VendorMachineContext</strong></p>
+</div>
+<div class="paragraph">
+<p>La <em>balance</em> permet de savoir si l’utilisateur a saisi assez d’argent
+pour acheter une boisson</p>
+</div>
+<div class="paragraph">
+<p>Le <em>totalBalance</em> représente l’argent disponible dans le distributeur
+automatique</p>
+</div>
+<div class="paragraph">
+<p>Connait l’état courant du distributeur automatique grâce à l’attribut
+<em>state </em>Chaque état (IVendorState) modifiera l’état du distributeur
+automatique</p>
+</div>
+<div class="paragraph">
+<p><strong>IVendorState</strong></p>
+</div>
+<div class="paragraph">
+<p>Les implémentations vont effectuer une action (e.g. rendre la monnaie)
+puis positionner la machine à l’état suivant (e.g. DispenseItem)</p>
+</div>
+<div class="paragraph">
+<p>Si dans un état une action n’est pas possible (e.g. être dans <em>Ready</em> et
+effectuer l’action <em>distribuer item</em>) alors l’exception
+IllegalVendorStateException sera levée</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code">Code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Classe Item</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Item</span> <span class="o">{</span>
+   <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+   <span class="kd">private</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+
+   <span class="kd">private</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">;</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Classe VendorMachineContext</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">VendorMachineContext</span> <span class="kd">implements</span> <span class="nc">IVendorMachine</span> <span class="o">{</span>
+
+   <span class="nd">@NonNull</span>
+   <span class="kd">private</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Item</span><span class="o">&gt;</span> <span class="n">itemsByProductCode</span><span class="o">;</span>
+
+   <span class="nd">@NonNull</span>
+   <span class="kd">private</span> <span class="kt">double</span> <span class="n">balance</span><span class="o">;</span>
+
+   <span class="nd">@NonNull</span>
+   <span class="kd">private</span> <span class="kt">double</span> <span class="n">totalMoney</span><span class="o">;</span>
+
+   <span class="kd">private</span> <span class="nc">VendorState</span> <span class="n">state</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Ready</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addTotalMoney</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">totalMoney</span> <span class="o">+=</span> <span class="n">money</span><span class="o">;</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addBalance</span><span class="o">(</span><span class="kt">double</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">balance</span> <span class="o">+=</span> <span class="n">amount</span><span class="o">;</span>
+   <span class="o">}</span>
+
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestInsertCash</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">insertCash</span><span class="o">(</span><span class="n">money</span><span class="o">);</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestDispenseMoney</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">dispenseMoney</span><span class="o">(</span><span class="n">productCode</span><span class="o">);</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestDispenseItem</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">dispenseItem</span><span class="o">(</span><span class="n">productCode</span><span class="o">);</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestCancelTransaction</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">cancelTransaction</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>L’état de départ est Ready</p>
+</li>
+<li>
+<p>Lorsqu’une <em>requête</em> est effectuée elle est déléguée à l’état courant
+du distributeur (i.g. <em>Ready</em>, <em>Cancel</em>, <em>RefoundChange</em> ou
+<em>DispenseItem</em>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Etat Ready</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="source"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="code"><pre>public class Ready implements VendorState {
+
+   private VendorMachineContext vendorMachine;
+
+   @Override
+   public void insertCash(double amount) {
+      vendorMachine.addBalance(amount);
+   }
+
+   @Override
+   public void dispenseMoney(int productCode) {
+      if(vendorMachine.getBalance() &gt;= vendorMachine.getItemsByProductCode().get(productCode).getPrice()) {
+         // Passer à l'état RefoundChange
+         vendorMachine.setState(new RefoundChange(this.vendorMachine));
+         vendorMachine.requestDispenseMoney(productCode);
+      } else {
+         // Pas assez d'argent, on reste dans l'état Ready
+         System.out.println("Vous n'avez pas inséré assez d'argent pour ce produit");
+      }
+   }
+
+   @Override
+   public void dispenseItem(int productCode) {
+      throw new IllegalVendorStateException();
+   }
+
+   @Override
+   public void cancelTransaction() {
+      throw new IllegalVendorStateException();
+   }
+}
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dans l’état Ready on peut effectuer deux actions :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Si on insère de l’argent Alors on reste dans l’état Ready</p>
+</li>
+<li>
+<p>Si on appuie le bouton validé et qu’on a donner assez d’argent
+(transition <em>item sélectionné</em>) alors on passe à l’état <em>RefoundChange</em>
+et on effectue la requête. &gt; On n’a pas de transition ItemSelected le
+fait d’appuyer sur valider n’est qu’une action visuelle. Derrière
+(back-end) ce qu’on fait concrètement s’est de rendre la monnaie puis
+dérouler les états.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Etat RefoundChange</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RefoundChange</span> <span class="kd">implements</span> <span class="nc">VendorState</span> <span class="o">{</span>
+
+   <span class="kd">private</span> <span class="nc">VendorMachineContext</span> <span class="n">vendorMachine</span><span class="o">;</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertCash</span><span class="o">(</span><span class="kt">double</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispenseMoney</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Rendre la monnaie</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Monnaie : "</span> <span class="o">+</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">getBalance</span><span class="o">()</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">getItemsByProductCode</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">productCode</span><span class="o">).</span><span class="na">getPrice</span><span class="o">()));</span>
+
+      <span class="c1">// Mettre à jour la balance et le totalAmount</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">setBalance</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">addTotalMoney</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">getItemsByProductCode</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">productCode</span><span class="o">).</span><span class="na">getPrice</span><span class="o">());</span>
+
+      <span class="c1">// On va l'état DispenseItem</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">setState</span><span class="o">(</span><span class="k">new</span> <span class="nc">DispenseItem</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">));</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">requestDispenseItem</span><span class="o">(</span><span class="n">productCode</span><span class="o">);</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispenseItem</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancelTransaction</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Si on est dans l’état RefoundChange on ne peut que rendre la monnaie
+puis passer dans l’état DispenseItem</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Etat</strong> <strong>DispenseItem</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DispenseItem</span> <span class="kd">implements</span> <span class="nc">VendorState</span> <span class="o">{</span>
+
+   <span class="kd">private</span> <span class="nc">VendorMachineContext</span> <span class="n">vendorMachine</span><span class="o">;</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertCash</span><span class="o">(</span><span class="kt">double</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispenseMoney</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispenseItem</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Voici votre item : "</span> <span class="o">+</span> <span class="n">vendorMachine</span><span class="o">.</span><span class="na">getItemsByProductCode</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">productCode</span><span class="o">).</span><span class="na">getName</span><span class="o">());</span>
+
+      <span class="c1">// Retour à Ready</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">vendorMachine</span><span class="o">.</span><span class="na">setState</span><span class="o">(</span><span class="k">new</span> <span class="nc">Ready</span><span class="o">(</span><span class="n">vendorMachine</span><span class="o">));</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancelTransaction</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Une fois l’item distribué on retourne automatiquement dans l’état
+initial Ready.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Etat Cancel</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cancelled</span> <span class="kd">implements</span> <span class="nc">VendorState</span> <span class="o">{</span>
+
+   <span class="kd">private</span> <span class="nc">VendorMachine</span> <span class="n">vendorMachine</span><span class="o">;</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertCash</span><span class="o">(</span><span class="kt">double</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispenseMoney</span><span class="o">(</span><span class="kt">int</span> <span class="n">productCode</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="n">voidpublic</span> <span class="kd">class</span> <span class="nc">Cancelled</span> <span class="kd">implements</span> <span class="nc">VendorState</span> <span class="o">{</span>
+
+   <span class="kd">private</span> <span class="nc">VendorMachine</span> <span class="n">vendorMachine</span><span class="o">;</span>
+
+   <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertCash</span><span class="o">(</span><span class="kt">double</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalVendorStateException</span><span class="o">();</span>
+   <span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Classe client</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+   <span class="nc">IVendorMachine</span> <span class="n">machine</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">VendorMachineContext</span><span class="o">(</span><span class="n">initVendorMachine</span><span class="o">(),</span> <span class="mf">0.0</span><span class="o">,</span> <span class="mf">10.0</span><span class="o">);</span>
+   <span class="n">machine</span><span class="o">.</span><span class="na">requestInsertCash</span><span class="o">(</span><span class="mf">2.0</span><span class="o">);</span>
+
+   <span class="n">machine</span><span class="o">.</span><span class="na">requestDispenseMoney</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Item</span><span class="o">&gt;</span> <span class="nf">initVendorMachine</span><span class="o">()</span> <span class="o">{</span>
+   <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Item</span><span class="o">&gt;</span> <span class="n">itemsByProductCode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+   <span class="n">itemsByProductCode</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Item</span><span class="o">(</span><span class="s">"Coca"</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">,</span> <span class="mi">10</span><span class="o">));</span>
+   <span class="n">itemsByProductCode</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Item</span><span class="o">(</span><span class="s">"IceTea"</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">,</span> <span class="mi">10</span><span class="o">));</span>
+   <span class="n">itemsByProductCode</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Item</span><span class="o">(</span><span class="s">"Eau"</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">,</span> <span class="mi">10</span><span class="o">));</span>
+   <span class="k">return</span> <span class="n">itemsByProductCode</span><span class="o">;</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>OUTPUT :
+   Monnaie : 0.5
+   Voici votre item : Coca</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La machine a état fini permet de comprendre le problème mais nous ne
+pouvons pas directement la traduire en design pattern State (e.g. pas de
+transition itemSelected)</p>
+</div>
+<div class="paragraph">
+<p>Dans le design pattern State :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Le context connait l’état en cours et délègue l’action demandée à
+l’état en cours</p>
+</li>
+<li>
+<p>L’état en cours effectue l’action puis change l’état courant du
+context</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mon site web : <a href="https://adriencaubel.fr" class="bare">https://adriencaubel.fr</a><br>
+Vidéo design pattern State : <a href="https://youtu.be/7N8fE4sV8js" class="bare">https://youtu.be/7N8fE4sV8js</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:29:19 +0200
+</div>
+</div>
+</body>
+</html>

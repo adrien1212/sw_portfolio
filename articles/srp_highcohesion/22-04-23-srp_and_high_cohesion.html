@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Single Responsability Principle, SRP, High Cohesion">
+<meta name="author" content="Adrien CAUBEL">
+<title>Single Responsability Principle &amp; High Cohesion</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Single Responsability Principle &amp; High Cohesion</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">22/04/2023</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_single_responsability_principle">Single Responsability Principle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Single Responsibility Principle (SRP) and High Cohesion are two principles of software design that are closely related to each other. Both of these principles aim to improve the quality of software by making it more maintainable, flexible, and reusable.</p>
+</div>
+<div class="paragraph">
+<p>The Single Responsibility Principle states that a class should have only one reason to change. In other words, a class should have only one responsibility. This principle encourages developers to create smaller, more focused classes that are easier to understand, test, and maintain. By ensuring that each class has a single responsibility, changes to one part of the code will not affect other parts of the code.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>A class should have only one reason to change.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_high_cohesion">High Cohesion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>High Cohesion, on the other hand, refers to the degree to which the methods and fields of a class are related to each other. A class is said to have high cohesion if its methods and fields are closely related and work together to achieve a single goal. In other words, a class with high cohesion has a clear purpose and performs a well-defined set of operations. High cohesion is important because it makes the code easier to understand, modify, and test.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>High cohesion implies that a class is specifically designed to accomplish its intended purpose. All the methods and properties within the class are closely related and contribute to the same goal.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_relationship_between_the_both">Relationship between the both</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is a strong relationship between the Single Responsibility Principle and High Cohesion. When a class has a single responsibility, it is more likely to have high cohesion. This is because when a class is focused on a specific responsibility, it is easier to ensure that its methods and fields are closely related and work together to achieve that responsibility.</p>
+</div>
+<div class="paragraph">
+<p>Conversely, when a class has multiple responsibilities, it is more likely to have low cohesion. This is because the methods and fields of the class may not be closely related, making it harder to understand and maintain the code. Additionally, changes to one responsibility may affect other parts of the code, making it harder to modify and test.</p>
+</div>
+<div class="paragraph">
+<p>In conclusion, the Single Responsibility Principle and High Cohesion are two important principles of software design that are closely related to each other. By following these principles, developers can create code that is easier to understand, modify, and test, resulting in higher quality software.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>If you think about SRP you’ll realize that this is just another way to define cohesion and coupling. We want to increase the cohesion between things that change for the same reasons, and we want to decrease the coupling between those things that change for different reasons.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Robert Martin's
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-06-08 20:34:59 +0200
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

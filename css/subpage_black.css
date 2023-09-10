@@ -1,0 +1,85 @@
+html, body {
+    height: 100%;
+    background-color: #1a1c20;
+    color: white;
+  }  
+
+
+
+.title {
+    margin-top: 1em;
+    color: #ffffff !important;
+    font-family: 'Imbue', serif;
+    font-size: 48px !important;
+}
+
+.subtitle {
+    font-size: 32px !important;
+    color: #ffffff !important;
+    font-family: Phantomsans, sans-serif;
+    font-weight: 600;
+    margin-bottom: 0.3em !important;
+}
+
+.courses-container {
+    font-size: 18px;
+    margin-top: 4em;
+    /* animation:courses_container_anim 0.8s 0.5s linear alternate both; */
+
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in both;
+    animation-delay: 0.15s;
+}
+
+@keyframes courses_container_anim {
+    from {
+      opacity: 0;
+    }
+  }
+
+.courses-container ul {
+    padding-left: 2rem;
+    list-style: inside;
+}
+
+.courses-container a {
+    color: #8bc7f8;
+}
+
+.courses-container a:hover {
+    color: #3D86C2;
+    text-decoration: underline;
+}
+
+.youtube-icon {
+    font-size: 20px;
+    color: #e84d45;
+    vertical-align: middle;
+}
+
+.github-icon {
+    font-size: 20px;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate3d(-2%, 0%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+.fa-chevron-circle-up {
+    background: yellow;
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+  }

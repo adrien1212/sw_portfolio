@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://adriencaubel.fr/</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/courses.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/articles.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/aboutme.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/index.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/patron_visiteur.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/patron_commande.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/patron_strategie.pdf</loc>
+  <lastmod>2023-06-08T19:13:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/patron_etat.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/interface_utilite.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/inversion_dependance.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/injection_dependance.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/dto.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/designation_chainee.pdf</loc>
+  <lastmod>2023-06-08T19:13:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/mvc_en_detail.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/spock.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/spring.pdf</loc>
+  <lastmod>2023-06-08T19:13:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/jacoco/21-04-2022-jacoco.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/apprendre_dp/23-04-2022-pourquoi_apprendre_dp.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/latex_pourquoi_lutiliser/22-08-2022-Ecrire_CV_Latex.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/latex_list_argument/22-08-2022-latex_liste_arguments.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/latex_cv/22-08-2022-Ecrire_CV_Latex.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/ml_wine_regression/11-01-2022-ml_wine_regression.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/observer_cyclic/17-01-2022-observer_acyclic.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/srp_highcohesion/22-04-23-srp_and_high_cohesion.html</loc>
+  <lastmod>2023-06-08T19:13:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/cv-fr.pdf</loc>
+  <lastmod>2023-06-08T19:13:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/resources/cv-en.pdf</loc>
+  <lastmod>2023-06-08T19:13:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/latex_pourquoi_lutiliser/exemple_simple.txt</loc>
+  <lastmod>2023-06-08T19:12:57+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/latex_pourquoi_lutiliser/exemple_simple.pdf</loc>
+  <lastmod>2023-06-08T19:12:57+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://adriencaubel.fr/articles/ml_wine_regression/tp_regression.pdf</loc>
+  <lastmod>2023-06-08T19:12:58+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>

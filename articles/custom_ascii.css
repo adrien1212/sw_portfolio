@@ -1,0 +1,105 @@
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+
+@import url("//fonts.googleapis.com/css?family=Noto+Sans:300,600italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700");
+@import url(https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css);
+/* Default asciidoc style framework - important */
+
+:root {
+  --maincolor: #FFFFFF;
+  --primarycolor: #2c3e50;
+  --secondarycolor: #333333;
+  --tertiarycolor: #186d7a;
+  --sidebarbackground: #CCC;
+  --linkcolor: #b71c1c;
+  --linkcoloralternate: #f44336;
+  --white: #FFFFFF;
+  --black: #000000;
+}
+
+#content {
+    text-align: justify !important;
+}
+
+#header h1 {
+  font-weight: 500;
+  text-align: center !important;
+}
+
+#header .details {
+  border-bottom: 2px solid #f8c617 !important;
+  text-align: center !important;
+  width: 12em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Text styles */
+h1 {
+  text-align: left;
+  color: var(--primarycolor) !important;
+}
+
+#header {
+  max-width: 100%;
+  text-align: center !important;
+  background-color: #fbfbfb;
+  padding-top: 1em;
+  padding-bottom: 2em;
+  margin-bottom: 4em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Inter', sans-serif;
+  color: var(--secondarycolor) !important;
+  font-weight: 700;
+}
+
+.title {
+  color: var(--tertiarycolor) !important;
+  font-family: "Noto Sans", sans-serif !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+}
+
+p {
+  font-family: "Noto Sans", sans-serif !important
+}
+
+/* Table styles */
+th {
+  font-family: "Noto Sans", sans-serif !important
+}
+
+/* Responsiveness fixes */
+video {
+  max-width: 100%;
+}
+
+@media all and (max-width: 600px) {
+  table {
+    width: 55vw !important;
+    font-size: 3vw;
+  }
+}
+
+li p {
+  margin-bottom: 0em !important;
+}
+
+.content > pre {
+  font-size: 14px !important;
+}
+
+.source {
+  overflow-x: auto;
+}
+
+
+#header .details br + span::before {
+  content: none !important;
+}

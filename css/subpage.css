@@ -1,0 +1,94 @@
+html, body {
+    height: 100%;
+    color: #333333;
+  }  
+
+.navbarcontainer {
+    background-color: white;
+}
+
+
+.navbar-menu {
+    box-shadow: none !important;
+}
+
+
+
+.navbar {
+    position: relative;
+    background-color: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.navbar a {
+    color: #0E1213;
+    font-weight: 700;
+}
+
+.navbar a:hover {
+    background-color: white;
+    color: #0E1213;
+    text-decoration: underline;
+    text-decoration-color: #4F5147;
+}
+
+.separator {
+    border-bottom: 1px solid #4F5147;
+    border-top: 1px solid #4F5147;
+    background-color: white;
+    height: 0.4em;
+}
+
+.title {
+    margin-top: 1em;
+    color: #0E1213 !important;
+    font-family: 'Imbue', serif;
+    font-size: 48px !important;
+}
+
+.subtitle {
+    color: #333333 !important;
+    font-size: 32px !important;
+    font-family: 'Imbue', serif;
+    font-weight: 400;
+    margin-bottom: 0.3em !important;
+}
+
+.courses-container {
+    font-size: 18px;
+    margin-top: 4em;
+    /* animation:courses_container_anim 0.8s 0.5s linear alternate both; */
+}
+
+@keyframes courses_container_anim {
+    from {
+      opacity: 0;
+    }
+  }
+
+.courses-container ul {
+    padding-left: 2rem;
+    list-style: inside;
+}
+
+.courses-container a {
+    color: #2687d3;
+}
+
+.courses-container a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.youtube-icon {
+    font-size: 20px;
+    color: #e84d45;
+    vertical-align: middle;
+}
+
+.github-icon {
+    font-size: 20px;
+    color: #333333;
+    vertical-align: middle;
+}

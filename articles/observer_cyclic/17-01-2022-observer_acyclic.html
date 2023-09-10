@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Observer, Design Pattenrs, Cyclic relationship">
+<meta name="author" content="Adrien CAUBEL">
+<title>Does the Observer design pattern have cyclic relationships ?</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Does the Observer design pattern have cyclic relationships ?</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">11/01/2022</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this article we are going to answer <em>Does the Observer design pattern
+have cyclic relationships ?</em><br>
+Indeed, in the following UML diagram <code>Subject</code> depends on <code>Observer</code>
+interface and <code>BinaryObserver</code> depends on <code>Subject</code>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/observer.png" alt="images/observer"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_its_an_acyclic_relationship">Why it’s an acyclic relationship ?</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_break_cycle_at_the_class_level">Break cycle at the class level</h3>
+<div class="paragraph">
+<p>According to the book
+<a href="https://www.oreilly.com/library/view/java-application-architecture/9780132874779/">Java
+Application Architecture by Kirk Knoernschild</a> it’s not a cyclic problem
+because the <code>ObservaterImpl</code> is a concrete class. Look it !</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/observer.png" alt="images/observer"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_break_cycle_at_the_module_level">Break cycle at the module level</h3>
+<div class="paragraph">
+<p>Furthermore if we put : - <code>Subject</code> and <code>Observer</code> in the same
+module - <code>BinaryObserver</code> in another module, we have an acyclic
+relationship at the module level</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/module.png" alt="images/module"></span></p>
+</div>
+<div class="paragraph">
+<p>Take note if we put the interface <code>Observer</code> with this implementation
+<code>ObserverImplementation</code> in the same module and <code>Subject</code> class in
+an independent module, so we would have a cyclic relationship.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion">Conclusion</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Observer design pattern has acyclic dependencies between classes</p>
+</li>
+<li>
+<p>Obersver design pattern has acyclic dependencies between modules</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_but_this_isnt_the_perfect_solution">But this isn’t the perfect solution !</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_test_and_deploy_package2">Test and deploy package2</h3>
+<div class="paragraph">
+<p>The lack of cycle is due to the
+<a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency
+inversion</a> applied without having paid attention.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Inverting the relationships allows us to deploy <code>package2</code> module
+independent of the <code>package1</code> module.</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_and_deploy_package1">Test and deploy package1</h3>
+<div class="paragraph">
+<p>But I’d like to explore another option, the ability to <strong>test</strong> and
+<strong>deploy</strong> the <code>package1</code> module independently. It’s not possible yet.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>If I want to test and deploy both modules independently, I need to
+completely eliminate the relationship altogether.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/module2.png" alt="images/module2"></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_observer_and_observable_in_java">Observer and Observable in Java</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>So, now we can add a new answer to the question <em>why use <code>Observer</code>
+and the <code>Observable</code> (it’s class and not an interface) together ?</em></p>
+</div>
+<div class="paragraph">
+<p>Deploy <code>Student</code> class independently of <code>MessageBoard</code> class.<br>
+<em>AND</em><br>
+Deploy <code>MessageBoard</code> class independently of <code>Student</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.util.*;
+
+public class MessageBoard extends Observable {
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+    public void changeMessage( String message ) {
+        this.message = message;
+        setChanged();
+        notifyObservers( message );
+    }
+    public static void main( String [] args ) {
+        MessageBoard board = new MessageBoard();
+        Student bob = new Student();
+        Student joe = new Student();
+        board.addObserver( bob );
+        board.addObserver( joe );
+        board.changeMessage("More Homework!");
+    }
+} // end of class MessageBoard
+
+class Student implements Observer {
+    public void update(Observable o, Object arg) {
+        System.out.println( "Message board changed: " + arg );
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Code issued from
+<a href="https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch11s08.html">Learning
+Java&#44; 4th Edition by Patrick Niemeyer&#44; Daniel Leuck</a> online
+resources.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

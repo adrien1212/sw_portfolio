@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Articles</title>
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta name="description" content="I like to blog about the stuff I'm interested in. Hopefully you'll find some of it interesting too.">
+    <meta name="author" content="Adrien CAUBEL">
+    <link rel="icon" type="image/png" sizes="64x64" href="../img/fr-64px.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="../css/navbar-black.css">
+    <link rel="stylesheet" href="../css/subpage_black.css">
+</head>
+
+<body>
+    <div class="navbarcontainer">
+        <div class="container">
+            <nav class="navbar" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="../index.html">
+                        Home
+                    </a>
+
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarMenu">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+
+
+                </div>
+
+                <div id="navbarMenu" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a class="navbar-item" href="../courses.html">
+                            Courses
+                        </a>
+                        <a class="navbar-item" href="#">
+                            Articles
+                        </a>
+                        <a class="navbar-item" href="../aboutme.html">
+                            About me
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="separator"></div>
+
+    <div class="container">
+        <h1 id="typing-effect" class="title"></h1>
+        <h2>Articles are moving to <a style="color: white; text-decoration: underline;" href="https://blog.adriencaubel.fr">https://blog.adriencaubel.fr</a></h2>
+        <div class="courses-container max-height-container">
+            <div class="columns">
+                <column class="column is-6">
+                    <h2 class="subtitle">Informatique générale</h2>
+                    <ul>
+                        <li><a href="jacoco/21-04-2022-jacoco.html">Couverture de code avec JaCoCo</a></li>
+                        <li><a href="apprendre_dp/23-04-2022-pourquoi_apprendre_dp.html">Pourquoi apprendre les Design Patterns ?</a></li>
+                    </ul>
+                </column>
+                <column class="column is-6">
+                    <h2 class="subtitle">LaTeX</h2>
+                    <ul>
+                        <li><a href="latex_pourquoi_lutiliser/22-08-2022-Ecrire_CV_Latex.html">Pourquoi apprendre LaTeX</a></li>
+                        <li><a href="latex_list_argument/22-08-2022-latex_liste_arguments.html">Ecrire une commande avec un nombre variable d’arguments</a></li>
+                        <li><a href="latex_cv/22-08-2022-Ecrire_CV_Latex.html">Ecrire un CV en LaTeX</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="resources/mvc_en_detail.pdf" target="_blank">Architecture MVC détaillée</a> (issu
+                            d'un cours en préparation)</li>
+                    </ul>
+                </column>
+            </div>
+            <div class="columns" style="margin-top: 4em;">
+                <div class="column is-6">
+                    <h2 class="subtitle">Machine Learning</h2>
+                    <ul>
+                        <li><a href="ml_wine_regression/11-01-2022-ml_wine_regression.html">Machine Learning : Prédire la qualité d'un vin</a></li>
+                    </ul>
+                </div>
+                <div class="column is-6">
+                    <h2 class="subtitle">Architecture & Conception</h2>
+                    <ul>
+                        <li><a href="observer_cyclic/17-01-2022-observer_acyclic.html">Does the Observer design pattern have cyclic relationships ?</a></li>
+                        <li><a href="srp_highcohesion/22-04-23-srp_and_high_cohesion.html">Single Responsability Principle & High Cohesion</a></li>      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const typingElement = document.getElementById("typing-effect");
+    
+        const textToType = "Articles";
+    
+        const typingSpeed = 70; // Adjust this value 
+    
+        // Function to simulate typing effect
+        function typeText(text, index) {
+            if (index < text.length) {
+                typingElement.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(function () {
+                    typeText(text, index);
+                }, typingSpeed);
+            }
+        }
+    
+        // Start the typing effect
+        typeText(textToType, 0);
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if (navbarBurgers.length > 0) {
+                navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const menu = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        menu.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

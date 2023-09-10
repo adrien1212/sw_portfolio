@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Machine Learning, Wine, Regression">
+<meta name="author" content="Adrien CAUBEL">
+<title>Prédire la qualité d’un vin</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Prédire la qualité d’un vin</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">11/01/2022</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dans cet article nous allons prédire la qualité d’un vin via la
+régression (mais cela nous réserve une petite surprise). Pour ce faire,
+nous allons utilisé le <a href="https://archive.ics.uci.edu/ml/datasets/wine">wine
+dataset</a>.</p>
+</div>
+<div class="paragraph">
+<p>À noter, que cet article est une simplification d’un travail pratique
+disponible <a href="tp_regression.pdf">ici</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_préparation_des_données">Préparation des données</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_présentation_des_données">Présentation des données</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">import pandas as pd
+import numpy as np
+
+df = pd.read_csv('winequality-red.csv', sep=';')
+df.head()</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 99%;">
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 9%;">
+<col style="width: 10%;">
+<col style="width: 8%;">
+<col style="width: 9%;">
+<col style="width: 6%;">
+<col style="width: 12%;">
+<col style="width: 12%;">
+<col style="width: 5%;">
+<col style="width: 3%;">
+<col style="width: 6%;">
+<col style="width: 5%;">
+<col style="width: 5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-right valign-top">ID</th>
+<th class="tableblock halign-right valign-top">fixed acidity</th>
+<th class="tableblock halign-right valign-top">volatile acidity</th>
+<th class="tableblock halign-right valign-top">citric acid</th>
+<th class="tableblock halign-right valign-top">residual sugar</th>
+<th class="tableblock halign-right valign-top">chlorides</th>
+<th class="tableblock halign-right valign-top">free sulfur dioxide</th>
+<th class="tableblock halign-right valign-top">total sulfur dioxide</th>
+<th class="tableblock halign-right valign-top">density</th>
+<th class="tableblock halign-right valign-top">pH</th>
+<th class="tableblock halign-right valign-top">sulphates</th>
+<th class="tableblock halign-right valign-top">alcohol</th>
+<th class="tableblock halign-right valign-top">quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.4</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.7</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.9</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.076</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.9978</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.51</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.56</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.4</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.8</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.88</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2.6</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.098</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">67</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.9968</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.2</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.68</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.8</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.8</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.76</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.04</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">2.3</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.092</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">54</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.997</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.26</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.65</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.8</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">11.2</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.28</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.56</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.9</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.075</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.998</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.16</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.58</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.8</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">6</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-right valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">7.4</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.7</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">1.9</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.076</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.9978</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">3.51</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">0.56</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">9.4</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_séparation_des_données_en_training_et_testset">Séparation des données en training et testset</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">from sklearn.model_selection import train_test_split
+
+X = df.iloc[:,:-1]
+y = df.iloc[:,-1] # colonne quality isolée
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_normalisation_des_données">Normalisation des données</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">from sklearn.preprocessing import MinMaxScaler
+mmscaler=MinMaxScaler(feature_range=(0,1))
+X_train=mmscaler.fit_transform(X_train)
+X_test=mmscaler.fit_transform(X_test)
+X_train=pd.DataFrame(X_train)
+X_test=pd.DataFrame(X_test)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_régression_linéaire">Régression Linéaire</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les données traitées, nous pouvons maintenant appliquer notre algorithme
+de régression puis vérifier si les valeurs prédites sont correctes.</p>
+</div>
+<div class="sect2">
+<h3 id="_modèle_de_régression">Modèle de régression</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">from sklearn import linear_model
+
+regr = linear_model.LinearRegression()
+regr.fit(X_train, y_train)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_justesse_des_valeurs_prédites_rmse">Justesse des valeurs prédites (RMSE)</h3>
+<div class="paragraph">
+<p>On récupère en premier les qualités prédites pour notre testset</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">predictedQuality = regr.predict(X_test)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Puis on compare le résultat avec les valeurs effectives du testset :
+<code>y_test</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">from sklearn.metrics import mean_squared_error
+import math
+MSE = mean_squared_error(y_test, predictedQuality)
+
+RMSE = math.sqrt(MSE)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le résultat du RMSE avoisine les 0.59. Par conséquent, un vin noté 5
+sera évalué en moyenne dans l’intervalle [4.4, 5.6]. Cette valeur est
+assez importante pour un intervalle allant de [0, 10].</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comprendre_le_rmse_élevé">Comprendre le RMSE élevé</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Il faut donc comprendre pourquoi nous avions un RMSE élevé. Ainsi, nous
+avons regardé la répartition de la qualité de vin. On remarque que la
+majorité des vins ont une note de 5 ou 6. Ainsi, notre RMSE est
+fortement impacté par les vins notés 5, 6 ou 7.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/repartion_qualite.png" alt="images/repartion_qualite"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_évaluation_de_trois_sous_ensembles_avec_rmse">Évaluation de trois sous-ensembles avec RMSE</h3>
+<div class="paragraph">
+<p>Au vu de l’histogramme, nous avons donc décidé de découper notre dataset
+en 3 sous-ensembles en fonction des notes :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dataset avec une basse qualité : notes de [0, 4]</p>
+</li>
+<li>
+<p>Dataset avec une qualité moyenne : notes de [5, 6]</p>
+</li>
+<li>
+<p>Dataset avec une haute qualité : notes de [7, 10]</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nous avons réalisé une régression linéaire multiple sur ces trois
+dataset puis calculé leur RSME respectif :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Qualité basse RMSE = 0.372</p>
+</li>
+<li>
+<p>Qualité moyenne RMSE = 0.446</p>
+</li>
+<li>
+<p>Qualité haute RMSE = 0.250</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion">Conclusion</h3>
+<div class="paragraph">
+<p>Les RMSE sur les trois sous-modèles sont plus petits que le RMSE sur le
+modèle global. Par conséquent il serait intéressant de noter un vin en
+deux étapes :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Classifier le vin : le vin dont on souhaite prédire la qualité va être
+classé dans une des catégories suivantes, mauvais, bon, excellent. En
+utilisant un algorithme de classification.</p>
+</li>
+<li>
+<p>Noter le vin : une fois la classe déterminée, nous passons le vin au
+sous-modèle correspondant (mauvais, bon, excellent) qui étant plus
+précis nous permettra d’obtenir une note plus précise.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

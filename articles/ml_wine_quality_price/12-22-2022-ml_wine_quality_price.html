@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="keywords" content="Machine Learning, Wine, Regression, Classification">
+<meta name="author" content="Adrien CAUBEL">
+<title>Prédire la qualité et le prix d’un vin</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Prédire la qualité et le prix d’un vin</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">22/12/2022</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dans cet article nous résumons le travail réalisé
+<a href="tp_regression.pdf">ici</a> permettant de prédire la qualité puis le
+prix d’un vin. Pour ce faire nous utilisons deux dataset :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Le premier nous donne des informations sur la qualité du vin via des
+données scientifiques</p>
+</li>
+<li>
+<p>Le second permet d’avoir le prix du vin en fonction de sa région, son
+Chateaux et son année</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prédire_la_qualité_dun_vin">Prédire la qualité d’un vin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nous obtenons de meilleurs résultats si nous divisons notre problème en
+deux. Au lieu de donner directement une note via la régression nous
+allons :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Classer l’observation en <em>mauvaise</em>, <em>moyenne</em> ou <em>excellente</em></p>
+</li>
+<li>
+<p>Pour chaque classe appliquer un modèle de regression pour avoir une
+note</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Ainsi, en ayant 4 modèles (1 de classifition et 3 de régression) les
+notes obtenues sont plus proches que des notes obtenues en appliquant un
+seul modèle de regression.</p>
+</div>
+<div class="sect2">
+<h3 id="_classifier_le_vin">Classifier le vin</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_donner_une_note">Donner une note</h3>
+<div class="paragraph">
+<p>Nous avons déterminer les meilleurs hyperparamètres pour plusieurs
+modèles. Les MAEs et R2 score de chaque algorithmes sont présentés
+ci-dessous</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_donner_un_prix">Donner un prix</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cette seconde partie s’est avéré plus compliquée car il n’y a très peu
+de corrélation entre les variables explicatives (qualité, pays et
+l’année) et la variable expliquée (le prix). On remarque cela
+graphiquement avec Weka ou avec le R2 score qui est proche de 0.</p>
+</div>
+<div class="paragraph">
+<p>Ainsi, les modèles obtenus par regression ne sont pas exploitables.
+Cependant, le R2 score n’étant pas nul, nous pouvons essayer d’améliorer
+nos modèles mais cela demande plus de temps et de connaissances.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>

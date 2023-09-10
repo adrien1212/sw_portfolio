@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="author" content="Adrien CAUBEL">
+<title>Ecrire une commande avec un nombre variable d’arguments</title>
+<link rel="stylesheet" href="./../custom_ascii.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Ecrire une commande avec un nombre variable d’arguments</h1>
+<div class="details">
+<span id="author" class="author">Adrien CAUBEL</span><br>
+<span id="revdate">22/08/2022</span>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_nombre_darguments_fixe">Nombre d’arguments fixe</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lorsque vous souhaitez définir une commande ayant un nombre d’arguments
+fixe vous spécifier celui-ci dans la définition de votre commande,
+ci-dessous <code>6</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\newcommand{\experience}[6]{
+   % Le code de ma commande
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Mais comment faire lorsque vous avez un nombre variable d’arguments ?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nombre_darguments_variable">Nombre d’arguments variable</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nous souhaitons réaliser l’exemple suivant où chaque numéro correspond à
+l’argument :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>L’intitulé du poste</p>
+</li>
+<li>
+<p>La date de début</p>
+</li>
+<li>
+<p>La date de fin</p>
+</li>
+<li>
+<p>Le nom de l’entreprise</p>
+</li>
+<li>
+<p>Le lieu</p>
+</li>
+<li>
+<p>Le département</p>
+</li>
+<li>
+<p>La <strong>liste</strong> des travaux réalisés. Et c’est ce dernier point qui nous
+int&#8217;eresse le plus.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/exemple.png" alt="images/exemple"></span></p>
+</div>
+<div class="paragraph">
+<p>Notre commande doit pouvoir être appelée comme suit. Où les arguments 7
+et 8 sont considérés comme appartenant à une liste.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\experience
+   {Stagiaire - Conception d’un CRM}
+   {2020}{2020}
+   {SPI SOFTWARE}{Luc-la-Primaube}{12}
+   {Apprentissage du langage JavaScript et framework Vue.JS}  % arg 7
+   {Modernisation du visuel du site et amélioration/modification du code existant} % arg 8</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parcourir_une_liste">Parcourir une liste</h3>
+<div class="paragraph">
+<p>Le parcours de la liste va se faire grâce à la commande
+<code>\@ifnextchar</code>. Et étant donné que la commande contient le symbole
+<code>@</code> nous devons encadrer tout notre par l’environnement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\makeatletter
+
+% Mettre tout le code ici
+
+\makeatother</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le parcours de la liste va se faire lors de l’appelle de la commande
+<code>\checknextarg</code> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Si un argument est présent, on appelle <code>\gobblenextarg</code> où
+l’argument est passé en paramètre.<br></p>
+</li>
+<li>
+<p>Si après avoir réalis&#8217;e le traitement <code>\formatActivity</code> (qui nous
+permet de créer un item de la liste) il existe d’autres arguments alors
+on appelle de nouveau <code>\gobblenextarg</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\formatActivity{#1} \@ifnextchar\bgroup{\gobblenextarg}{}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_la_commande_experience">La commande <code>experience</code></h3>
+<div class="paragraph">
+<p>Elle est très simple. Nous appliquons notre style pour les 6 premiers
+arguments. Puis nous appelons la commande <code>checknextarg</code> qui va
+traiter les arguments suivants.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\newcommand{\experience}[6]{
+   \subsection*{#1}
+   {\small #2 - #3 - #4, #5 (#6)}
+      \checknextarg
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code_complet">Code complet</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-latex" data-lang="latex">\newcommand\formatActivity[1]{%
+   \begin{adjustwidth}{20pt}{15pt}
+   \noindent
+   \makebox[5mm][c]{\textbullet}%
+   \parbox[t]{\linewidth}{\strut#1\strut}%
+   \par
+   \end{adjustwidth}
+}
+
+\makeatletter
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\formatActivity{#1} \@ifnextchar\bgroup{\gobblenextarg}{}}
+
+\newcommand{\experience}[6]{
+   \subsection*{#1}
+   {\small #2 - #3 - #4, #5 (#6)}
+      \checknextarg
+}
+\makeatother</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_références">Références</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://tex.stackexchange.com/questions/57788/understanding-ifnextchar">Explication
+de ifnextchar</a></p>
+</li>
+<li>
+<p>Fortement inspiré de l’article
+<a href="https://davidyat.es/2016/07/27/writing-a-latex-macro-that-takes-a-variable-number-of-arguments/">Writing
+a LaTeX macro that takes a variable number of arguments</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-07-23 11:18:55 +0200
+</div>
+</div>
+</body>
+</html>
