@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
 html,
 body {
     height: 100%;
@@ -19,8 +21,8 @@ body {
 
 .title {
     color: white !important;
-    font-family: 'Imbue', serif;
-    font-size: 48px !important;
+    font-family: 'Merriweather', serif;
+    font-size: 42px !important;
 }
 
 .separator {
