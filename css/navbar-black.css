@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
 .navbarcontainer {
   background-color: #0E1213;
 }
@@ -11,11 +13,14 @@
 
 .navbar a {
   color: white;
-  font-weight: 700;
+  font-size: 18px;
+  font-family: 'Oswald', sans-serif;  
+  text-transform: uppercase;
+  letter-spacing: 0.5 px;
 }
 
 .navbar a:hover {
-  background-color: #0E1213;
+  background-color: transparent;
   color: white;
   text-decoration: underline;
   text-decoration-color: #4F5147;
@@ -28,7 +33,6 @@
   height: 0.4em;
 }
 
-
-.navbar-menu {
-  background-color: #0E1213;
+.navbar-end {
+  gap: 1em;
 }

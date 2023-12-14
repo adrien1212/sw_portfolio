@@ -20,6 +20,8 @@ body {
 }
 
 .title {
+    margin-top: 1em;
+    margin-bottom: -0.5em;
     color: white !important;
     font-family: 'Merriweather', serif;
     font-size: 42px !important;
